@@ -93,7 +93,8 @@ def doc_out(i):
     text_temp = "Date: " + str(date.get()) + "\nTime: " + str(time.get()) + "\nSubject: " + str(subject.get()) + "\nGrade: " + str(grade.get()) + "\nZoom meeting link: " + str(link.get()) + "\nTime which the link was sent to the student group: " + str(link_time.get()) + "\nUnit: " + str(unit.get()) + "\nSubject content covered: " + str(content.get()) + "\nActivities: " + str(activities.get()) + "\nHomework: " + str(homework.get()) + "\nStudents participated: \n"
     students_txt = ""
     for j in students:
-        students_txt = students_txt + "\t" +str(j.get()) + "\n"
+        students_txt = students_txt + "\t" + str(j.get()) + "\n"
     txt.insert(tk.END, text_temp + students_txt)
+
 
 root.mainloop()  # End Window object
