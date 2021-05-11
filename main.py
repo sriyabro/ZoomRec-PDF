@@ -3,8 +3,10 @@ import tkinter as tk
 from tkinter import filedialog as fd
 import pdfkit as pdf
 import datetime
+import os
+import sys
 
-config = pdf.configuration(wkhtmltopdf="resources\wkhtmltopdf.exe")
+config = pdf.configuration(wkhtmltopdf="bin\wkhtmltopdf.exe")
 options = {
     'page-size': 'A4',
     'margin-top': '1.0in',
@@ -16,13 +18,13 @@ options = {
 }
 
 root = tk.Tk()  # Window object
-root.title("Zoom Classes")
+root.title("Zoom Class Records - PDF")
 
 canvas = tk.Canvas(root, height=450, width=800)
 
 lbl1 = tk.Label(root, text="Date")
 lbl1.grid(column=0, row=0)
-date = tk.Entry(root, width=50, fg="#0000FF", )
+date = tk.Entry(root, width=50, fg="#0000FF")
 today = datetime.date.today()
 date.insert(tk.END, today.strftime("%d/%m/%Y"))
 date.grid(column=1, row=0)
@@ -95,27 +97,27 @@ def stud():
             stu = tk.Entry(root, width=50, fg="#0000FF")
             stu.grid(column=1, row=11 + i)
             students.append(stu)
-    
+            
     except:
         no_stu.delete(0, tk.END)
         no_stu.insert(tk.END, "Please enter an Integer")
         no_stu.select_range(0, tk.END)
 
 
-    lbl13 = tk.Label(root, text="").grid(columnspan=3) #seperator
+    lbl13 = tk.Label(root, text="").grid(columnspan=3, row=12+i) #seperator
 
-    #sets save path as grade-subject-date
+    #sets file name as grade-subject-date
     out_name = "Grade " + str(grade.get()) + "-" + str(subject.get()) + "-" + now.strftime("%d-%m-%Y")
 
     lbl_save = tk.Label(root, text="Save file as")
-    lbl_save.grid(column=0, row=12+i)
+    lbl_save.grid(column=0, row=13+i)
 
     txt_out_name = tk.Entry(root, width=50, fg="#0000FF")
     txt_out_name.insert(tk.END, out_name)
-    txt_out_name.grid(column=1, row=12+i)
+    txt_out_name.grid(column=1, row=13+i)
 
-    btn_save_path = tk.Button(root, text="   Browse   ",command=lambda: save_path(i, txt_out_name, out_name))
-    btn_save_path.grid(column=2, row=12+i)
+    btn_save_path = tk.Button(root, text="   Browse   ", command=lambda: save_path(i, txt_out_name, out_name))
+    btn_save_path.grid(column=2, row=13+i)
 
 
 
@@ -127,21 +129,21 @@ def save_path(i, txt_out_name, out_name):
 
     message = tk.StringVar()
 
-    btn_pdf = tk.Button(root, text="Generate PDF", command=lambda: pdf_out(out_name, i, message))
-    btn_pdf.grid(column=2, row=13 + i)
+    btn_pdf = tk.Button(root, text="Generate PDF", command=lambda: pdf_out(out_name, message,i))
+    btn_pdf.grid(column=2, row=14 + i)
 
     lbl12 = tk.Label(root, textvariable=message, height=4)
-    lbl12.grid(columnspan=3, row=14+i)
+    lbl12.grid(columnspan=3, row=15+i)
 
 
 #generates pdf
-def pdf_out(out_name, i, message):
+def pdf_out(out_name, message,i):
     html_text = '''
             <html>
             <head>
             <style>
-            body { font-family: Arial, Helvetica, sans-serif;}
-            p { font-size: 18}
+            body {font-family: Arial, Helvetica, sans-serif;}
+            p {font-size: 18;}
             </style>
             </head>
             <body>
@@ -183,10 +185,16 @@ def pdf_out(out_name, i, message):
     except:
         message.set("Some error occured !! Try again")
 
+
     else:
         message.set("PDF created successfully !")
+        
+    tk.Button(root, text="  Reset  ", command=restart_program).grid(column=2, row=15 + i)
     
     
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 ## raw print on text area
 # def doc_out(i):
