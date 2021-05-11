@@ -1,8 +1,7 @@
 # zoom-class-records-document-generater
 
-### Simple application to ease - keeping records of zoom classes by generating pdf files 
+### Simple application to ease - creating pdf files to keep records of zoom classes
 
-- Simple basic UI using tkinter
+- tkinter - Basic UI
 - WebKit HTML to PDF (wkhtmltopdf) - for formatting the document using HTML and generating the PDF
-
 
